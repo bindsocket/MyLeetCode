@@ -1,3 +1,7 @@
+package leetcode
+
+import "slices"
+
 /**
 https://leetcode.com/problems/average-of-levels-in-binary-tree/
 
@@ -7,7 +11,7 @@ https://leetcode.com/problems/average-of-levels-in-binary-tree/
  *     Left *TreeNode
  *     Right *TreeNode
  * }
- */
+*/
 
 /*
 push root
@@ -29,27 +33,33 @@ while true:
     lvl++
 */
 
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
 func averageOfLevels(root *TreeNode) []float64 {
-    queue := []*TreeNode{root}
-    var lvlAvgs []float64
-    for {
-        nextQueue := slices.Clip([]*TreeNode{})
-        runSum := 0
-        valCount := 0
-        for _, queueItem := range queue {
-            if queueItem.Left != nil {
-                nextQueue = append(nextQueue, queueItem.Left)
-            }
-            if queueItem.Right != nil {
-                nextQueue = append(nextQueue, queueItem.Right)
-            }
-            runSum += queueItem.Val
-            valCount++
-        }
-        queue = nextQueue
-        lvlAvgs = append(lvlAvgs, float64(runSum)/float64(valCount))
-        if len(nextQueue) == 0 {
-            return lvlAvgs
-        }
-    }
+	queue := []*TreeNode{root}
+	var lvlAvgs []float64
+	for {
+		nextQueue := slices.Clip([]*TreeNode{})
+		runSum := 0
+		valCount := 0
+		for _, queueItem := range queue {
+			if queueItem.Left != nil {
+				nextQueue = append(nextQueue, queueItem.Left)
+			}
+			if queueItem.Right != nil {
+				nextQueue = append(nextQueue, queueItem.Right)
+			}
+			runSum += queueItem.Val
+			valCount++
+		}
+		queue = nextQueue
+		lvlAvgs = append(lvlAvgs, float64(runSum)/float64(valCount))
+		if len(nextQueue) == 0 {
+			return lvlAvgs
+		}
+	}
 }
